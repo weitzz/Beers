@@ -1,14 +1,10 @@
-import React from 'react'
+import React from "react";
 interface IContainer {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const Container = ({ children }: IContainer) => {
-    return (
-        <section className='max-w-screen-xl mx-auto px-3'>
-            {children}
-        </section>
-    )
-}
+  return <main className="max-w-screen-xl mx-auto px-3">{children}</main>;
+};
 
-export default Container
+export default Container;
