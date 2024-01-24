@@ -2,7 +2,9 @@ import Header from "@/components/header";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
-import { Provider } from "@/components/provider";
+import { AuthProvider } from "@/providers/authProvider";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -11,19 +13,17 @@ export const metadata: Metadata = {
   description: "Teste front end utilizando PunkAPI v2",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
   return (
-    <html lang="en">
-      <body className={rubik.className}>
-        <Provider>
-          <Header />
-          {children}
-        </Provider>
-      </body>
+    <html lang="pt-BR">
+      <AuthProvider session={session}>
+        <body className={rubik.className}>{children}</body>
+      </AuthProvider>
     </html>
   );
 }
