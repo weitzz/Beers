@@ -21,9 +21,9 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   return (
     <html lang="pt-BR">
-      <AuthProvider session={session}>
-        <body className={rubik.className}>{children}</body>
-      </AuthProvider>
+      <body className={rubik.className}>
+        <AuthProvider session={session}>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
