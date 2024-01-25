@@ -1,19 +1,21 @@
 
-import { NextResponse } from 'next/server'
-import User from '@/models/user'
-import { connectMongoDB } from '@/lib/mongodb';
+// import { NextResponse } from 'next/server'
+
+// import prisma from '@/lib/prisma';
 
 
 
-export async function POST(request: Request) {
-    try {
-        await connectMongoDB();
-        const { email } = await request.json();
-        const user = await User.findOne({ email }).select("_id");
-        console.log("user: ", user);
-        return NextResponse.json({ user });
-    } catch (error) {
-        console.log(error);
-    }
+// export async function POST(request: Request) {
+//     try {
+        
+//         const { email } = await request.json();
+//         // const user = await prisma.user.findFirst({ email })
+//         console.log("user: ", user);
+//         return NextResponse.json({ user });
+//     } catch (error) {
+//         console.log(error);
+//     }
 
-}
+// }
+
+

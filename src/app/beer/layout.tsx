@@ -10,7 +10,7 @@ export default async function BeerLayout({
 }) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
-    redirect("/");
+    redirect("/account/login");
   }
   return (
     <>
