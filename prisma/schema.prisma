@@ -41,13 +41,17 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  username       String?
+  email          String?   @unique
+  emailVerified  DateTime? @map("email_verified")
+  hashedPassword String?
+  created_at     DateTime? @default(now())
+  update_at      DateTime? @default(now())
+  image          String?
+  accounts       Account[]
+  sessions       Session[]
 
   @@map("users")
 }

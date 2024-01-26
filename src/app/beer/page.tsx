@@ -2,9 +2,6 @@ import Container from "@/components/container";
 import InputSearch from "@/components/inputSearch";
 import ListBeer from "@/components/listBeer";
 import RandomBeer from "@/components/randomBeer";
-import React from "react";
-
-import Header from "@/components/header";
 
 const Beer = async () => {
   return (

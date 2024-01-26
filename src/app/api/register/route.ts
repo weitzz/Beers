@@ -1,21 +1,37 @@
 import { hash } from 'bcrypt'
 import { NextResponse } from 'next/server'
-import User from '@/models/user'
-import { connectMongoDB } from '@/lib/mongodb';
 
+import prisma from '@/lib/prisma';
 
 
 export async function POST(request: Request) {
     try {
-        const { nome, email, password } = await request.json();
+        const data = await request.json()
+        const { username, email, password } = data
         const hashedPassword = await hash(password, 10);
-        await connectMongoDB()
-        await User.create({
-            nome, email, password: hashedPassword
+
+         if(!username || !email || !password){
+        return NextResponse.json("Dados inválidos.", { status: 400})
+    }
+        const existingUser = await prisma.user.findUnique({
+            where: {email: email}
         })
+        if (existingUser) {
+            return NextResponse.json({user: null, message: 'Email já cadastrado' },{status: 409});
+        }
+
+         
+
+       const newUser =  await prisma.user.create({
+            data: {
+                username, email, hashedPassword
+            }
+       })
+       
+        
+        return NextResponse.json({user: newUser,message: "Usuário cadastrado com sucesso"},{status: 201})
     } catch (e) {
-        console.log({ e });
+        return NextResponse.json({message: "Algo deu errado"},{status: 500})
     }
 
-    return NextResponse.json({ message: 'success' });
 }
