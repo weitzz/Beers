@@ -12,7 +12,7 @@ export const getAll = async () => {
     if (!res.ok) {
       throw new Error("Nenhuma cerveja encontrada");
     }
-    const data: IBeer[] = await res.json();
+    const data = await res.json();
     return data;
   } catch (err) {
     throw new Error("Erro ao carregar api");
@@ -45,7 +45,7 @@ export const getDataName = async (name: string) => {
     if (!res.ok) {
       throw new Error("Nenhuma cerveja encontrada");
     }
-    const data: IBeer[] = await res.json();
+    const data = await res.json();
     return data;
   } catch (err) {
     console.log(err);
