@@ -35,9 +35,7 @@ export function LoadMore() {
   return (
     <>
       {beers.map((item) => (
-        <Link href={`/beer/${item.id}`}>
-          <Card item={item} key={item.id} />
-        </Link>
+        <Card beers={item} />
       ))}
       <div
         className="flex justify-center items-center p-4 col-span-1 sm:col-span-2 md:col-span-3"

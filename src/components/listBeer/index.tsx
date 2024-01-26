@@ -1,18 +1,15 @@
 import { IBeer } from "@/types/beerTypes";
 import Link from "next/link";
-import { getAll } from "@/services";
+import { getAll, getDataName } from "@/services";
 import Card from "../card";
 import { LoadMore } from "../paginationControls";
+import { Suspense } from "react";
+import { Spinner } from "../spinner";
 
 const ListBeer = async () => {
-  const beer: IBeer[] = await getAll();
   return (
     <section className="grid gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {beer.map((item) => (
-        <Link href={`/beer/${item.id}`} key={item.id}>
-          <Card item={item} key={item.id} />
-        </Link>
-      ))}
+      /*aqui faz o search*/
       <LoadMore />
     </section>
   );
