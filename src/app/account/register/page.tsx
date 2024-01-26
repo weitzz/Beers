@@ -29,7 +29,6 @@ const Register = () => {
         email: email.value,
         password: password.value,
       };
-      console.log(requestBody);
 
       const requestOptions = {
         method: "POST",
