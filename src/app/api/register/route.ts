@@ -13,7 +13,7 @@ export async function POST(request: Request) {
          if(!username || !email || !password){
         return NextResponse.json("Dados inválidos.", { status: 400})
     }
-        const existingUser = await prisma.user.findUnique({
+        const existingUser = await prisma.user.findFirst({
             where: {email: email}
         })
         if (existingUser) {

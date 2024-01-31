@@ -6,6 +6,7 @@ import Banner from "@/components/Banner/random";
 import { Spinner } from "@/components/spinner";
 import { getAll, getDataName } from "@/services";
 import React, { Suspense } from "react";
+import Filters from "@/components/filters";
 const Beer = async ({
   searchParams,
 }: {
@@ -14,7 +15,9 @@ const Beer = async ({
   const query = searchParams?.query || "";
   const beers: any = await getAll();
   const beer = await getDataName(query);
-  console.log(beers);
+  console.log(beers[0].ingredients.malt);
+  console.log(query);
+  //https://api.punkapi.com/v2/beers?page=2&per_page=80
 
   return (
     <main className="w-full">

@@ -28,7 +28,7 @@ export const authOptions:AuthOptions = {
       ): Promise<any> => {
          if(!credentials?.email || !credentials?.password) throw new Error("Dados de Login necessarios")
 
-          const user = await prisma.user.findUnique({
+          const user = await prisma.user.findFirst({
               where: {
                   email: credentials.email
               }

@@ -20,7 +20,7 @@ const Card = ({ beers }: CardProps) => {
               className="absolute -top-5"
               src={beer.image_url}
               alt={beer.name}
-              width={60}
+              width={56}
               height={32}
               quality={100}
               priority
