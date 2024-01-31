@@ -1,4 +1,3 @@
-import { IBeer } from "@/@types/beer";
 import Card from "@/components/card";
 import Container from "@/components/container";
 import InputSearch from "@/components/inputSearch";
@@ -6,18 +5,20 @@ import Banner from "@/components/Banner/random";
 import { Spinner } from "@/components/spinner";
 import { getAll, getDataName } from "@/services";
 import React, { Suspense } from "react";
-import Filters from "@/components/filters";
+import PaginationControls from "@/components/paginationControls";
 const Beer = async ({
   searchParams,
 }: {
-  searchParams?: { query?: string };
+  searchParams: { query: string | undefined; page: string; per_page: string };
 }) => {
   const query = searchParams?.query || "";
-  const beers: any = await getAll();
   const beer = await getDataName(query);
-  console.log(beers[0].ingredients.malt);
-  console.log(query);
-  //https://api.punkapi.com/v2/beers?page=2&per_page=80
+  const page = searchParams.page ?? "1";
+  const per_page = searchParams.per_page ?? "6";
+  const start = (Number(page) - 1) * Number(per_page);
+  const end = start + Number(per_page);
+  const beers: any = await getAll();
+  const beersPaginations = beers.slice(start, end);
 
   return (
     <main className="w-full">
@@ -32,13 +33,16 @@ const Beer = async ({
         <section className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <Suspense key={query} fallback={<Spinner />}>
             {beer === undefined ? (
-              <Card beers={beers} />
+              <Card beers={beersPaginations} />
             ) : (
               <Card beers={beer} />
             )}
           </Suspense>
-          {/* <LoadMore /> */}
         </section>
+        <PaginationControls
+          hasNextPage={end < beers.length}
+          hasPrevPage={start > 0}
+        />
       </Container>
     </main>
   );

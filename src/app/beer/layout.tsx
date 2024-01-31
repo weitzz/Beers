@@ -2,6 +2,7 @@ import Header from "@/components/header";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import Footer from "@/components/footer";
 
 export default async function BeerLayout({
   children,
@@ -16,6 +17,7 @@ export default async function BeerLayout({
     <>
       <Header />
       {children}
+      <Footer />
     </>
   );
 }

@@ -1,48 +1,49 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { Spinner } from "@/components/spinner";
-import { fetchData } from "@/services";
-import { IBeer } from "@/types/beerTypes";
-import Card from "../card";
-import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import Button from "../forms/button";
 
-export function LoadMore() {
-  const [beers, setBeers] = useState<IBeer[]>([]);
-  const [page, setPage] = useState(1);
-
-  const { ref, inView } = useInView();
-
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  const loadMoreBeers = async () => {
-    // Once the page 8 is reached repeat the process all over again.
-    await delay(2000);
-    const nextPage = (page % 7) + 1;
-    const newProducts = (await fetchData(nextPage)) ?? [];
-    setBeers((prevProducts: IBeer[]) => [...prevProducts, ...newProducts]);
-    setPage(nextPage);
-  };
-
-  useEffect(() => {
-    if (inView) {
-      loadMoreBeers();
-    }
-  }, [inView]);
-
-  return (
-    <>
-      {beers.map((item) => (
-        <Card beers={item} />
-      ))}
-      <div
-        className="flex justify-center items-center p-4 col-span-1 sm:col-span-2 md:col-span-3"
-        ref={ref}
-      >
-        <Spinner />
-      </div>
-    </>
-  );
+interface PaginationControlsProps {
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
 }
+
+const PaginationControls = ({
+  hasNextPage,
+  hasPrevPage,
+}: PaginationControlsProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const page = searchParams.get("page") ?? "1";
+  const per_page = searchParams.get("per_page") ?? "6";
+
+  console.log(page, per_page);
+  return (
+    <div className="flex gap-2 items-center justify-center p-8">
+      <Button
+        disabled={!hasPrevPage}
+        onClick={() => {
+          router.push(`/beer?page=${Number(page) - 1}&per_page=${per_page}`);
+        }}
+      >
+        Anterior
+      </Button>
+
+      <div>
+        {page} / {Math.ceil(10 / Number(per_page))}
+      </div>
+
+      <Button
+        disabled={!hasNextPage}
+        onClick={() => {
+          router.push(`/?page=${Number(page) + 1}&per_page=${per_page}`);
+        }}
+      >
+        Próxima
+      </Button>
+    </div>
+  );
+};
+
+export default PaginationControls;

@@ -68,11 +68,10 @@ export const getId = async (id: string) => {
   }
 };
 //https://api.punkapi.com/v2/beers?page=1&per_page=7
-export const fetchData = async (page: number) => {
+export const fetchData = async (page: string, per_page: string) => {
   try {
-    const perPage = 24;
     const res = await fetch(
-      `${process.env.HOST_URL}?page=${page}&per_page=${perPage}`,
+      `${process.env.HOST_URL}?page=${page}&per_page=${per_page}`,
       {
         next: { revalidate: 320 },
       }
