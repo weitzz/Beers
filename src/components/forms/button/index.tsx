@@ -4,7 +4,13 @@ interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
-const Button = ({ children, onClick, className, ...props }: IButtonProps) => {
+const Button = ({
+  children,
+  onClick,
+  className,
+
+  ...props
+}: IButtonProps) => {
   return (
     <button
       onClick={onClick}
