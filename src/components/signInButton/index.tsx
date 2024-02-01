@@ -23,9 +23,7 @@ const SignInButton = () => {
           ) : (
             <FiUser size={25} />
           )}
-          <Button onClick={() => signOut({ callbackUrl: "/account/login" })}>
-            Sair
-          </Button>
+          <Button onClick={() => signOut({ callbackUrl: "/" })}>Sair</Button>
         </div>
       ) : (
         <div className="hidden sm:flex justify-center items-center gap-2">

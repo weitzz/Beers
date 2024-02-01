@@ -6,51 +6,58 @@ import useForm from "@/hooks/useForm";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 
-const Login = () => {
+const Register = () => {
+  const router = useRouter();
   const email = useForm("email");
   const password = useForm();
-  const router = useRouter();
+  const username = useForm();
+
   const [error, setError] = useState("");
+  const userExists = useForm();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      if ((await email.validate()) && (await password.validate())) {
-        const response = await signIn("credentials", {
-          email: email.value,
-          password: password.value,
-          redirect: false,
-        });
 
-        console.log({ response });
+    if (
+      (await email.validate()) &&
+      (await password.validate()) &&
+      (await username.validate())
+    ) {
+      const requestBody = {
+        username: username.value,
+        email: email.value,
+        password: password.value,
+      };
 
-        if (response?.error) {
-          setError(response.error);
-          return;
-        }
-        router.replace("/beer");
+      const requestOptions = {
+        method: "POST",
+        body: JSON.stringify(requestBody),
+      };
+
+      try {
+        const response = await fetch(`/api/register`, requestOptions);
+
+        router.push("/account/login");
+      } catch (error) {
+        console.error("Error:", error);
       }
-    } catch (e) {
-      console.log(e);
     }
   };
   return (
     <div className="md:w-1/2  px-8 md:px-16">
-      <h2 className="font-bold text-2xl text-slate-700">Login</h2>
-      <span className="text-red-500 bg-red-300">{error}</span>
-      <p className="text-xs mt-4 text-slate-700">
-        Se você já é membro, faça login facilmente.
-      </p>
+      <h2 className="font-bold text-2xl text-slate-700">Register</h2>
+      <p className="text-xs mt-4 text-slate-700">Crie sua conta agora.</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Input
+          type="name"
+          name="username"
+          placeholder="Name"
           className=" mt-8 "
-          type="email"
-          name="email"
-          placeholder="Email"
-          {...email}
+          {...username}
         />
+        <Input type="email" name="email" placeholder="Email" {...email} />
         <div className="relative">
           <Input
             type="password"
@@ -70,9 +77,18 @@ const Login = () => {
             <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
           </svg>
         </div>
-        <Button type="submit" className="py-2 hover:scale-105 duration-300">
-          Login
+        <Button
+          type="submit"
+          className=" text-white py-2 hover:scale-105 duration-300"
+        >
+          Register
         </Button>
+
+        {userExists.error && (
+          <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+            {userExists.error}
+          </div>
+        )}
       </form>
 
       <div className="mt-6 grid grid-cols-3 items-center text-gray-400">
@@ -89,16 +105,14 @@ const Login = () => {
 
       <div className="mt-3 text-xs flex justify-between items-center ">
         <p className="text-center text-gray-600 mt-2">
-          Se você não tem uma conta, por favor
-          <Link
-            className="text-blue-500 hover:underline ml-2"
-            href="/account/register"
-          >
-            Registre-se
+          Se você possui uma conta, por favor
+          <Link className="text-blue-500 hover:underline ml-2" href="/">
+            Login
           </Link>
         </p>
       </div>
     </div>
   );
 };
-export default Login;
+
+export default Register;
