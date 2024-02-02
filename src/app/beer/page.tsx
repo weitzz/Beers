@@ -4,7 +4,7 @@ import InputSearch from "@/components/inputSearch";
 import { getServerSession } from "next-auth";
 import Banner from "@/components/Banner/random";
 import { Spinner } from "@/components/spinner";
-import { getAll, getDataName } from "@/services";
+import { getAll } from "@/services";
 import React, { Suspense } from "react";
 import PaginationControls from "@/components/paginationControls";
 import { authOptions } from "../api/auth/[...nextauth]/route";
@@ -15,13 +15,16 @@ const Beer = async ({
   searchParams: { query: string | undefined; page: string; per_page: string };
 }) => {
   const query = searchParams?.query || "";
-  const beer = await getDataName(query);
   const page = searchParams.page ?? "1";
   const per_page = searchParams.per_page ?? "6";
   const start = (Number(page) - 1) * Number(per_page);
   const end = start + Number(per_page);
   const beers: any = await getAll();
+  const filteredBeers = beers.filter((beer: any) => {
+    return beer.name.toLowerCase().includes(query?.toLowerCase());
+  });
   const beersPaginations = beers.slice(start, end);
+
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     redirect("/");
@@ -39,11 +42,11 @@ const Beer = async ({
         </h1>
         <section className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <Suspense key={query} fallback={<Spinner />}>
-            {beer === undefined ? (
-              <Card beers={beersPaginations} />
-            ) : (
-              <Card beers={beer} />
-            )}
+            <Card
+              beers={
+                filteredBeers === undefined ? beersPaginations : filteredBeers
+              }
+            />
           </Suspense>
         </section>
         <PaginationControls
