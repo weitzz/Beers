@@ -1,19 +1,20 @@
 import Image from "next/image";
-import Container from "@/components/container";
+
 import LinkButton from "@/components/forms/linkButton";
-import Notfound from "public/beer.png";
+
+import Barney from "public/Barney.svg";
 const NotFound = () => {
   return (
-    <main className="text-center flex items-center justify-center flex-col p-4">
+    <main className=" mx-auto text-center flex items-center justify-center flex-col p-4 h-screen">
+      <h2 className="text-5xl mb-3">Não Encontrado</h2>
       <Image
-        src={Notfound}
-        alt=""
-        width={100}
+        src={Barney}
+        alt="not-found"
+        width={300}
         height={100}
         quality={100}
         priority
       />
-      <p className="text-3xl">Nao encontrado</p>
       <LinkButton href={"/beer"}>voltar</LinkButton>
     </main>
   );
