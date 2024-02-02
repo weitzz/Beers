@@ -38,7 +38,7 @@ const Register = () => {
       try {
         const response = await fetch(`/api/register`, requestOptions);
 
-        router.push("/account/login");
+        router.push("/");
       } catch (error) {
         console.error("Error:", error);
       }
