@@ -4,7 +4,7 @@ import InputSearch from "@/components/inputSearch";
 import { getServerSession } from "next-auth";
 import Banner from "@/components/Banner/random";
 import { Spinner } from "@/components/spinner";
-import { getAll } from "@/services";
+import { getAll, getDataName } from "@/services";
 import React, { Suspense } from "react";
 import PaginationControls from "@/components/paginationControls";
 import { authOptions } from "../api/auth/[...nextauth]/route";
@@ -20,10 +20,11 @@ const Beer = async ({
   const start = (Number(page) - 1) * Number(per_page);
   const end = start + Number(per_page);
   const beers: any = await getAll();
-  const filteredBeers = beers.filter((beer: any) => {
-    return beer.name.toLowerCase().includes(query?.toLowerCase());
-  });
+  const beer = await getDataName(query);
+
   const beersPaginations = beers.slice(start, end);
+
+  console.log(beersPaginations);
 
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
@@ -42,11 +43,7 @@ const Beer = async ({
         </h1>
         <section className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <Suspense key={query} fallback={<Spinner />}>
-            <Card
-              beers={
-                filteredBeers === undefined ? beersPaginations : filteredBeers
-              }
-            />
+            <Card beers={beer === undefined ? beersPaginations : beer} />
           </Suspense>
         </section>
         <PaginationControls
