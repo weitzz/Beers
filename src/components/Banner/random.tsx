@@ -5,7 +5,7 @@ import Notfound from "public/beer.png";
 import Link from "next/link";
 const Banner = async () => {
   const getRandom: any = await getRandomApi();
-  console.log(getRandom);
+
   return (
     <div className="min-h-[550px] flex justify-center items-center py-12">
       <div className="container">

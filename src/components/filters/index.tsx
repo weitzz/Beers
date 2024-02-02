@@ -8,8 +8,7 @@ const Filters = (props: any) => {
   const { replace } = useRouter();
   const searchValues = Array.from(searchParams.entries());
   const params = new URLSearchParams(searchParams);
-  console.log(params);
-  console.log(searchValues);
+
   return (
     <>
       <label

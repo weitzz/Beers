@@ -1,18 +1,20 @@
 import Card from "@/components/card";
 import Container from "@/components/container";
 import InputSearch from "@/components/inputSearch";
+import { getServerSession } from "next-auth";
 import Banner from "@/components/Banner/random";
 import { Spinner } from "@/components/spinner";
-import { getAll, getDataName } from "@/services";
+import { getAll } from "@/services";
 import React, { Suspense } from "react";
 import PaginationControls from "@/components/paginationControls";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 const Beer = async ({
   searchParams,
 }: {
   searchParams: { query: string | undefined; page: string; per_page: string };
 }) => {
   const query = searchParams?.query || "";
-
   const page = searchParams.page ?? "1";
   const per_page = searchParams.per_page ?? "6";
   const start = (Number(page) - 1) * Number(per_page);
@@ -22,6 +24,11 @@ const Beer = async ({
     return beer.name.toLowerCase().includes(query?.toLowerCase());
   });
   const beersPaginations = beers.slice(start, end);
+
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) {
+    redirect("/");
+  }
 
   return (
     <main className="w-full">
