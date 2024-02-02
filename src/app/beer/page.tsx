@@ -1,11 +1,14 @@
 import Card from "@/components/card";
 import Container from "@/components/container";
 import InputSearch from "@/components/inputSearch";
+import { getServerSession } from "next-auth";
 import Banner from "@/components/Banner/random";
 import { Spinner } from "@/components/spinner";
 import { getAll, getDataName } from "@/services";
 import React, { Suspense } from "react";
 import PaginationControls from "@/components/paginationControls";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 const Beer = async ({
   searchParams,
 }: {
@@ -19,6 +22,10 @@ const Beer = async ({
   const end = start + Number(per_page);
   const beers: any = await getAll();
   const beersPaginations = beers.slice(start, end);
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) {
+    redirect("/");
+  }
 
   return (
     <main className="w-full">
