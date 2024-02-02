@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 export const getAll = async () => {
   try {
-    const res = await fetch(`${process.env.HOST_URL}`, {
+    const res = await fetch(`${process.env.API_URL}`, {
       next: { revalidate: 320 },
     });
 
@@ -21,7 +21,7 @@ export const getAll = async () => {
 
 export const getRandomApi = async () => {
   try {
-    const res = await fetch(`${process.env.HOST_URL}/random`, {
+    const res = await fetch(`${process.env.API_URL}/random`, {
       next: { revalidate: 320 },
     });
 
@@ -41,7 +41,7 @@ export const getRandomApi = async () => {
 
 export const getDataName = async (name: string) => {
   try {
-    const res = await fetch(`${process.env.HOST_URL}?beer_name=${name}`);
+    const res = await fetch(`${process.env.API_URL}?beer_name=${name}`);
     if (!res.ok) {
       throw new Error("Nenhuma cerveja encontrada");
     }
@@ -54,7 +54,7 @@ export const getDataName = async (name: string) => {
 
 export const getId = async (id: string) => {
   try {
-    const res = await fetch(`${process.env.HOST_URL}/${id}`, {
+    const res = await fetch(`${process.env.API_URL}/${id}`, {
       next: { revalidate: 320 },
     });
 

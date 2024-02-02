@@ -18,7 +18,6 @@ const PaginationControls = ({
   const page = searchParams.get("page") ?? "1";
   const per_page = searchParams.get("per_page") ?? "6";
 
-  console.log(page, per_page);
   return (
     <div className="flex gap-2 items-center justify-center p-8">
       <Button
@@ -37,7 +36,7 @@ const PaginationControls = ({
       <Button
         disabled={!hasNextPage}
         onClick={() => {
-          router.push(`/?page=${Number(page) + 1}&per_page=${per_page}`);
+          router.push(`/beer?page=${Number(page) + 1}&per_page=${per_page}`);
         }}
       >
         Próxima
