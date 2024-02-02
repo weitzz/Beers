@@ -36,7 +36,7 @@ const PaginationControls = ({
       <Button
         disabled={!hasNextPage}
         onClick={() => {
-          router.push(`/?page=${Number(page) + 1}&per_page=${per_page}`);
+          router.push(`/beer?page=${Number(page) + 1}&per_page=${per_page}`);
         }}
       >
         Próxima
