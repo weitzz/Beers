@@ -1,4 +1,6 @@
 # Teste Front End
+> api fora do ar em breve novas atualizações do projeto.
+
 
 ## 💻 Beer -> consumindo a API https://punkapi.com/documentation/v2
 ### Para rodar a aplicação
