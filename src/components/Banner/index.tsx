@@ -2,13 +2,12 @@ import { getRandomApi } from "@/services";
 import { IBeer } from "@/types/beerTypes";
 import React from "react";
 import Image from "next/image";
-import Notfound from "public/beer.png";
 import Link from "next/link";
 const RandomBeer = async () => {
   const getRandom: IBeer = await getRandomApi();
   return (
-    <div className="min-h-[550px] flex justify-center items-center py-12">
-      <Link href={`/beer/${getRandom.id}`}>
+    <div className="flex min-h-80 items-center justify-center py-8">
+      <Link className="ui-surface flex w-full max-w-sm flex-col items-center p-6 text-center hover:border-yellow-300 hover:shadow-md" href={`/beer/${getRandom.id}`}>
         {getRandom.image_url ? (
           <Image
             src={getRandom.image_url}
@@ -17,12 +16,12 @@ const RandomBeer = async () => {
             height={100}
             quality={100}
             sizes="(max-width: 768px) 100vw,(max-width: 1200px) 4vw"
-            className="max-h-96"
+            className="h-48 w-auto object-contain"
             priority
           />
         ) : (
           <Image
-            src={Notfound}
+            src="/beer.png"
             alt={getRandom.name}
             width={80}
             height={100}
@@ -32,10 +31,10 @@ const RandomBeer = async () => {
         )}
 
         <aside>
-          <h2 className="font-bold text-xl mb-2 text-slate-700">
+          <h2 className="mb-2 text-lg font-bold text-slate-800">
             {getRandom.name}
           </h2>
-          <p className="text-slate-600 text-base mt-2">{getRandom.tagline}</p>
+          <p className="mt-2 text-sm text-slate-500">{getRandom.tagline}</p>
         </aside>
       </Link>
     </div>

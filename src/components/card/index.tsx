@@ -1,56 +1,67 @@
-"use client";
-import React from "react";
 import Image from "next/image";
-
 import Link from "next/link";
 
-import { FaRegHeart } from "react-icons/fa";
+import FavoriteButton from "@/components/profile/favoriteButton";
+import { IBeer } from "@/types/beerTypes";
 
 interface CardProps {
-  beers: any;
+  beers: IBeer[];
+  favoriteIds?: number[];
 }
-//bg-yellow-500 text-yellow-800
-const Card = ({ beers }: CardProps) => {
+
+const Card = ({ beers, favoriteIds = [] }: CardProps) => {
   return (
     <>
-      {beers.map((beer: any) => (
-        <Link href={`/beer/${beer.id}`} key={beer.id}>
-          <div className=" relative h-96 w-72 flex flex-col items-center justify-around shadow-md shadow-yellow-200 bg-yellow-500 rounded-md   px-6 pb-5">
-            <Image
-              className="absolute -top-5"
-              src={beer.image_url}
-              alt={beer.name}
-              width={56}
-              height={32}
-              quality={100}
-              priority
+      {beers.map((beer) => (
+        <div className="group relative h-full min-w-0" key={beer.id}>
+          <Link className="block h-full rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2" href={`/beer/${beer.id}`}>
+            <article className="flex h-full min-h-[24rem] min-w-0 flex-col items-center justify-between rounded-2xl border border-yellow-200 bg-white px-5 pb-16 pt-6 shadow-sm transition duration-200 group-hover:-translate-y-1 group-hover:border-yellow-400 group-hover:shadow-lg group-hover:shadow-yellow-100">
+              <Image
+                className="h-40 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                src={beer.image_url}
+                alt={beer.name}
+                width={120}
+                height={180}
+                quality={100}
+                sizes="120px"
+              />
+              <div className="z-10 flex flex-1 flex-col items-center justify-center pt-3 text-center">
+                <h2 className="mb-2 break-words text-lg font-bold text-slate-800">
+                  {beer.name}
+                </h2>
+                <div className="mb-4 flex items-center justify-center gap-1">
+                  <span className="line-clamp-2 break-words text-sm leading-5 text-slate-500">
+                    {beer.tagline}
+                  </span>
+                </div>
+                <div className="flex flex-row items-center justify-center gap-8 text-slate-600">
+                  <div className="flex flex-col items-center">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      ABV
+                    </p>
+                    <span className="font-semibold text-slate-800">
+                      {beer.abv ?? "—"}%
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      IBU
+                    </p>
+                    <span className="font-semibold text-slate-800">
+                      {beer.ibu ?? "—"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </Link>
+          <div className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2">
+            <FavoriteButton
+              beerId={beer.id}
+              initialFavorite={favoriteIds.includes(beer.id)}
             />
-            <div className=" pt-24 text-center mt-20 z-10">
-              <h2 className="font-bold text-xl mb-2 text-slate-100">
-                {beer.name}
-              </h2>
-              <div className="flex justify-center items-center gap-1 mb-4">
-                <span className="text-slate-100 text-sm leading-[0.813rem]">
-                  {beer.tagline}
-                </span>
-              </div>
-              <div className="flex flex-row justify-center items-center text-slate-100">
-                <div className="flex flex-col">
-                  <p className="font-semibold">ABV</p>
-                  <span>{beer.abv}</span>
-                </div>
-                <div className="border-slate-500 px-2 "></div>
-                <div className="flex flex-col">
-                  <p className="font-semibold">IBU</p>
-                  <span> {beer.ibu}</span>
-                </div>
-              </div>
-            </div>
-            <button className="rounded-full w-10 h-10 bg-slate-100 absolute -bottom-2 flex justify-center items-center shadow-sm shadow-yellow-200">
-              <FaRegHeart size={22} color="#f1c40f" />
-            </button>
           </div>
-        </Link>
+        </div>
       ))}
     </>
   );

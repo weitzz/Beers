@@ -2,7 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: light;
+  --color-canvas: #f8fafc;
+  --color-surface: #ffffff;
+  --color-ink: #1e293b;
+  --color-muted: #64748b;
+  --color-brand: #eab308;
+  --color-brand-strong: #ca8a04;
+  --color-brand-soft: #fef3c7;
+  --color-border: #e2e8f0;
+}
 
-body {
-  background-color: #f7f7f7;
+@layer base {
+  * {
+    @apply border-slate-200;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-canvas text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold tracking-tight text-slate-800;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  .ui-button {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold leading-5 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .ui-button-primary {
+    @apply bg-brand-500 text-slate-950 shadow-sm hover:bg-brand-400 active:bg-brand-600;
+  }
+
+  .ui-button-secondary {
+    @apply border border-slate-300 bg-surface text-slate-700 hover:border-brand-400 hover:bg-brand-50;
+  }
+
+  .ui-input {
+    @apply min-h-11 w-full min-w-0 rounded-lg border border-slate-300 bg-surface px-3 py-2.5 text-sm text-ink placeholder:text-slate-400 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus-visible:ring-2 focus-visible:ring-yellow-600 focus-visible:ring-offset-2;
+  }
+
+  .ui-surface {
+    @apply rounded-2xl border border-outline bg-surface shadow-sm;
+  }
 }

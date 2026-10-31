@@ -1,13 +1,12 @@
-import Link from 'next/link'
-import React from 'react'
+import Link from "next/link";
 
-const NotFoundPage = () => {
-    return (
-        <main className='text-center'>
-            <p className='text-3xl'>Nao encontrado</p>
-            <Link href={'/beer'}>voltar</Link>
-        </main>
-    )
+export default function BeerNotFound() {
+  return (
+    <main className="flex min-h-[60vh] flex-col items-center justify-center gap-4 px-4 text-center">
+      <p className="text-3xl font-bold text-slate-800">Cerveja não encontrada</p>
+      <Link className="ui-button ui-button-primary" href="/beer">
+        Voltar ao catálogo
+      </Link>
+    </main>
+  );
 }
-
-export default NotFoundPage

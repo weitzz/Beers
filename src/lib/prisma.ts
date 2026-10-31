@@ -1,19 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 
-let prisma: PrismaClient
+const globalForPrisma = globalThis as typeof globalThis & {
+  // A separate key avoids reusing an older PrismaClient cached by Next.js HMR,
+  // before the Favorite model was added to the generated client.
+  prismaWithFavorites?: PrismaClient;
+};
 
-if (process.env.NODE_ENV === "production") {
-    prisma = new PrismaClient()
+const prisma =
+  process.env.NODE_ENV === "production"
+    ? new PrismaClient()
+    : (globalForPrisma.prismaWithFavorites ??= new PrismaClient());
 
-} else {
-    let globalWithPrisma = global as typeof globalThis & {
-        prisma: PrismaClient
-    }
-    if (!globalWithPrisma.prisma) {
-        globalWithPrisma.prisma =  new PrismaClient()
-    }
-    
-    prisma = globalWithPrisma.prisma
-}
-
-export default prisma
+export default prisma;

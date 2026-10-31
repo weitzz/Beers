@@ -52,6 +52,7 @@ model User {
   image          String?
   accounts       Account[]
   sessions       Session[]
+  favorites      Favorite[]
 
   @@map("users")
 }
@@ -63,4 +64,24 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Favorite {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  beerId    Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, beerId])
+  @@map("favorites")
+}
+
+model RateLimitBucket {
+  id        String   @id @map("_id")
+  hits      Int
+  expiresAt DateTime
+
+  @@index([expiresAt])
+  @@map("rate_limit_buckets")
 }

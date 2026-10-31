@@ -1,17 +1,9 @@
-import Header from "@/components/header";
-
-import Footer from "@/components/footer";
+import SiteLayout from "@/components/siteLayout";
 
 export default async function BeerLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <Header />
-      {children}
-      <Footer />
-    </>
-  );
+  return <SiteLayout>{children}</SiteLayout>;
 }

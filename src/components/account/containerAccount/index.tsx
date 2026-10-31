@@ -3,16 +3,17 @@ import login from "../../../../public/login.jpg";
 
 const ContainerAccount = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="bg-gray-50 min-h-screen flex items-center justify-center">
-      <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl p-5 items-center">
+    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10">
+      <div className="ui-surface flex w-full max-w-5xl items-center overflow-hidden p-3 sm:p-5">
         {children}
 
-        <div className="md:block hidden w-1/2">
+        <div className="hidden w-1/2 overflow-hidden rounded-xl bg-slate-100 md:block">
           <Image
             src={login}
-            width={undefined}
-            height={undefined}
+            width={640}
+            height={720}
             alt="imagem"
+            className="h-full max-h-[38rem] w-full object-cover"
           />
         </div>
       </div>

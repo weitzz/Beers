@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Button from "@/components/forms/button";
 import ButtonGoogle from "@/components/forms/buttonGoogle";
 import Input from "@/components/forms/input";
@@ -14,104 +14,121 @@ const Register = () => {
   const username = useForm();
 
   const [error, setError] = useState("");
-  const userExists = useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
 
     if (
       (await email.validate()) &&
       (await password.validate()) &&
       (await username.validate())
     ) {
-      const requestBody = {
-        username: username.value,
-        email: email.value,
-        password: password.value,
-      };
-
-      const requestOptions = {
-        method: "POST",
-        body: JSON.stringify(requestBody),
-      };
-
+      setIsSubmitting(true);
       try {
-        const response = await fetch(`/api/register`, requestOptions);
+        const response = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: username.value,
+            email: email.value,
+            password: password.value,
+          }),
+        });
+        const result = await response.json();
 
-        router.push("/");
+        if (!response.ok) {
+          setError(result.message || "Nao foi possivel criar sua conta.");
+          return;
+        }
+
+        router.push("/login");
       } catch (error) {
-        console.error("Error:", error);
+        setError("Nao foi possivel conectar ao servidor. Tente novamente.");
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
   return (
-    <div className="md:w-1/2  px-8 md:px-16">
-      <h2 className="font-bold text-2xl text-slate-700">Register</h2>
-      <p className="text-xs mt-4 text-slate-700">Crie sua conta agora.</p>
+    <section className="w-full px-5 py-6 sm:px-8 md:w-1/2 md:px-12">
+      <h2 className="text-3xl font-bold text-slate-800">Criar conta</h2>
+      <p className="mt-3 text-sm text-slate-500">Cadastre-se para explorar o catalogo de cervejas.</p>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
         <Input
-          type="name"
+          type="text"
           name="username"
-          placeholder="Name"
-          className=" mt-8 "
+          placeholder="Seu nome"
+          className="mt-2"
           {...username}
         />
-        <Input type="email" name="email" placeholder="Email" {...email} />
+        <Input type="email" name="email" placeholder="seu@email.com" {...email} />
         <div className="relative">
           <Input
-            type="password"
+            className="pr-10"
+            type={showPassword ? "text" : "password"}
             name="password"
-            placeholder="Password"
+            placeholder="Crie uma senha"
             {...password}
           />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="gray"
-            className="bi bi-eye absolute top-1/2 right-3 -translate-y-1/2"
-            viewBox="0 0 16 16"
+          <button
+            type="button"
+            onClick={() => setShowPassword((visible) => !visible)}
+            aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+            aria-pressed={showPassword}
+            className="absolute right-1 top-[21px] flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400"
           >
-            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
-            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
-          </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              {showPassword ? (
+                <path d="M3.27 2 2 3.27l3.2 3.2C3.1 8.1 1.6 10.1 1 12c1.7 4.4 6 7.5 11 7.5 1.7 0 3.3-.4 4.7-1.1L20.7 22 22 20.7 3.27 2ZM12 17.5c-3.6 0-6.7-2.1-8.2-5.5.6-1.4 1.6-2.7 2.8-3.6l2 2a3.5 3.5 0 0 0 4.9 4.9l2 2c-1.1.2-2.3.2-3.5.2ZM12 4.5c-1.7 0-3.3.4-4.7 1.1l2 2A3.5 3.5 0 0 1 15.4 14l2 2c1.6-1.1 2.9-2.5 3.6-4-1.7-4.4-6-7.5-11-7.5Z" />
+              ) : (
+                <path d="M12 4.5c-5 0-9.3 3.1-11 7.5 1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5Zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+              )}
+            </svg>
+          </button>
         </div>
         <Button
           type="submit"
-          className=" text-white py-2 hover:scale-105 duration-300"
+          disabled={isSubmitting}
+          className="mt-1 w-full"
         >
-          Register
+          {isSubmitting ? "Criando conta..." : "Criar conta"}
         </Button>
 
-        {userExists.error && (
-          <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-            {userExists.error}
+        {error && (
+          <div className="mt-2 w-fit rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
+            {error}
           </div>
         )}
       </form>
 
-      <div className="mt-6 grid grid-cols-3 items-center text-gray-400">
-        <hr className="border-slate-800" />
-        <p className="text-center text-sm">OU</p>
-        <hr className="border-slate-800" />
+      <div className="mt-6 grid grid-cols-3 items-center text-slate-400">
+        <hr className="border-slate-200" />
+        <p className="text-center text-xs font-semibold uppercase tracking-wide">ou</p>
+        <hr className="border-slate-200" />
       </div>
 
       <ButtonGoogle />
 
-      <div className="mt-5 text-xs border-b border-slate-800 py-4 text-blue-500">
-        <Link href="#">Esqueceu a senha?</Link>
-      </div>
-
-      <div className="mt-3 text-xs flex justify-between items-center ">
-        <p className="text-center text-gray-600 mt-2">
-          Se você possui uma conta, por favor
-          <Link className="text-blue-500 hover:underline ml-2" href="/">
-            Login
+      <div className="mt-4 border-t border-slate-200 pt-4 text-sm">
+        <p className="text-slate-500">
+          Ja tem uma conta?
+          <Link className="ml-2 font-semibold text-yellow-700 hover:text-yellow-800" href="/login">
+            Entrar
           </Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 };
 

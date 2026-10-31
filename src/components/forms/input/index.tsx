@@ -26,21 +26,24 @@ const Input = ({
   id,
 }: InputProps) => {
   return (
-    <div className="">
-      <label htmlFor={name}>{label}</label>
+    <div className="space-y-1.5">
+      {label && (
+        <label htmlFor={id ?? name} className="block text-sm font-medium text-slate-700">
+          {label}
+        </label>
+      )}
       <input
         type={type}
-        id={id}
+        id={id ?? name}
         name={name}
         placeholder={placeholder}
-        className={`${className}
-       border border-slate-200  w-full text-base text-slate-500 p-2 rounded-md  transition duration-700 outline-none hover:border-yellow-400 `}
+        className={`ui-input ${className ?? ""}`}
         onChange={onChange}
         value={value}
         onBlur={onBlur}
       />
       {error && (
-        <p className="text-red-700 text-sm mt-2 bg-red-300 rounded-md px-2">
+        <p className="mt-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
           {error}
         </p>
       )}

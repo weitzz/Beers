@@ -15,22 +15,32 @@ const InputSearch = () => {
     } else {
       params.delete("query");
     }
+    params.set("page", "1");
     replace(`${pathname}?${params.toString()}`);
   }, 300);
   return (
-    <div className="w-full border border-slate-200 bg-slate-100 my-5 flex gap-2 items-center justify-between rounded-lg p-2  hover:border-yellow-400 shadow-md">
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleSearch.flush();
+      }}
+      className="my-6 flex w-full items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white p-2 shadow-sm focus-within:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-100"
+      role="search"
+    >
       <input
-        className=" block bg-slate-100 text-base p-3 rounded-m transition duration-700 focus:outline-none  w-11/12"
-        type="text"
+        className="min-h-11 w-full min-w-0 bg-transparent px-3 py-2 text-sm text-slate-800 outline-none placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-yellow-600 focus-visible:ring-offset-2"
+        type="search"
+        name="query"
+        aria-label="Pesquisar cervejas"
         placeholder="Pesquise a sua cerveja"
         defaultValue={searchParams.get("query")?.toString()}
         onChange={(e) => handleSearch(e.target.value)}
       />
 
-      <button type="submit">
-        <FiSearch size={24} color="#f1c40f" />
+      <button className="ui-button ui-button-primary h-11 w-11 shrink-0 px-0" type="submit" aria-label="Pesquisar">
+        <FiSearch size={20} />
       </button>
-    </div>
+    </form>
   );
 };
 

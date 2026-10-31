@@ -1,31 +1,29 @@
-
-
 export interface IBeer {
-    id: string,
-    name: string,
-    tagline: string,
-    first_brewed?: string,
-    description: string,
-    image_url: string,
-    ingredients?: IIngredients
-    food_pairing?: [string]
-
+  id: number;
+  name: string;
+  tagline: string;
+  first_brewed?: string;
+  description: string;
+  image?: string;
+  image_url: string;
+  abv?: number;
+  ibu?: number;
+  ingredients?: IIngredients;
+  food_pairing?: string[];
 }
 
 export interface IIngredients {
-    malt?: IMalt
-    hops?: IHops
-    yeast?: [string] | string
+  malt?: IIngredient[];
+  hops?: IHop[];
+  yeast?: string;
 }
 
-export interface IMalt {
-    name: string,
-    amount: { value: number, unit: string }
+export interface IIngredient {
+  name: string;
+  amount: { value: number; unit: string };
 }
 
-export interface IHops {
-    name: string,
-    amount: { value: number, unit: string },
-    add: string,
-    attribute: string
+export interface IHop extends IIngredient {
+  add: string;
+  attribute: string;
 }

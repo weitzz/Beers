@@ -1,6 +1,6 @@
 # Teste Front End
 
-## 💻 Beer -> consumindo a API https://punkapi.com/documentation/v2
+## 💻 Beer -> consumindo a API https://punkapi.dev/api/v3/beers
 ### Para rodar a aplicação
 
 > OBS: pode-se utilizar o gerenciador de pacotes npm ou o yarn para rodar os comandos abaixo

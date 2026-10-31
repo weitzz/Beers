@@ -4,7 +4,7 @@ interface IContainer {
 }
 
 const Container = ({ children }: IContainer) => {
-  return <main className="max-w-screen-xl mx-auto px-3">{children}</main>;
+  return <div className="mx-auto w-full max-w-screen-xl px-4 sm:px-6">{children}</div>;
 };
 
 export default Container;

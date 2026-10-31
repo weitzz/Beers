@@ -1,14 +1,12 @@
-"use client";
-import { useState } from "react";
-import BarLoader from "react-spinners/BarLoader";
+import { Spinner } from "@/components/spinner";
 
-const Loading = () => {
-  let [loading, setLoading] = useState(true);
+export default function Loading() {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <BarLoader loading={loading} color="#eed235" width={100} height={8} />
-    </div>
+    <main className="flex min-h-[60vh] items-center justify-center">
+      <div className="flex flex-col items-center gap-3 text-sm font-medium text-slate-500" aria-live="polite">
+        <Spinner />
+        Carregando...
+      </div>
+    </main>
   );
-};
-
-export default Loading;
+}
