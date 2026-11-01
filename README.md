@@ -14,13 +14,18 @@ Aplicação web para explorar cervejas da Punk API, pesquisar e filtrar o catál
 
 ## Telas do sistema
 
-| Login | Cadastro |
-| --- | --- |
-| ![Tela de login](public/screenshots/login.png) | ![Tela de cadastro](public/screenshots/cadastro.png) |
+ ### Login 
+ ![Tela de login](public/screenshots/login.png) 
 
-| Recuperar senha | Detalhes da cerveja |
-| --- | --- |
-| ![Tela de recuperação de senha](public/screenshots/recuperar-senha.png) | ![Página de detalhes da cerveja](public/screenshots/detalhe-cerveja.png) |
+### Cadastro 
+ ![Tela de cadastro](public/screenshots/cadastro.png) 
+
+### Recuperar senha 
+
+![Tela de recuperação de senha](public/screenshots/recuperar-senha.png) 
+
+### Detalhes da cerveja 
+![Página de detalhes da cerveja](public/screenshots/detalhe-cerveja.png) 
 
 ## Tecnologias
 
