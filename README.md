@@ -146,15 +146,15 @@ Para visualizar dados MongoDB, use o Atlas Data Explorer ou o MongoDB Compass; o
 
 ## Rotas principais
 
-| Rota | Descrição |
-| --- | --- |
-| `/` | Página inicial |
-| `/login` | Login com e-mail/senha ou Google |
+| Rota               | Descrição                                               |
+| ------------------ | ------------------------------------------------------- |
+| `/`                | Página inicial                                          |
+| `/login`           | Login com e-mail/senha ou Google                        |
 | `/forgot-password` | Solicitar link de recuperação ou definir uma nova senha |
-| `/register` | Cadastro de conta |
-| `/beer` | Catálogo, busca, filtros e favoritos; exige login |
-| `/beer/[id]` | Detalhes de uma cerveja |
-| `/profile` | Perfil e favoritos do usuário |
+| `/register`        | Cadastro de conta                                       |
+| `/beer`            | Catálogo, busca, filtros e favoritos; exige login       |
+| `/beer/[id]`       | Detalhes de uma cerveja                                 |
+| `/profile`         | Perfil e favoritos do usuário                           |
 
 ## Estrutura do projeto
 
