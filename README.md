@@ -12,6 +12,16 @@ Aplicação web para explorar cervejas da Punk API, pesquisar e filtrar o catál
 - Perfil de usuário e lista de cervejas favoritas.
 - Validação dos dados no servidor e limite de tentativas de cadastro/login armazenado no MongoDB.
 
+## Telas do sistema
+
+| Login | Cadastro |
+| --- | --- |
+| ![Tela de login](public/screenshots/login.png) | ![Tela de cadastro](public/screenshots/cadastro.png) |
+
+| Recuperar senha | Detalhes da cerveja |
+| --- | --- |
+| ![Tela de recuperação de senha](public/screenshots/recuperar-senha.png) | ![Página de detalhes da cerveja](public/screenshots/detalhe-cerveja.png) |
+
 ## Tecnologias
 
 - Next.js 16 com App Router e React 19.
