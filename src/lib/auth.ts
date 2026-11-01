@@ -8,10 +8,51 @@ import { isValidLoginPassword, normalizeEmail } from "./inputValidation";
 import { consumeRateLimits, getClientIp } from "./rateLimit";
 import prisma from "./prisma";
 
+const prismaAdapter = PrismaAdapter(
+  prisma as unknown as Parameters<typeof PrismaAdapter>[0],
+);
+
+const authAdapter = {
+  ...prismaAdapter,
+  async getUserByAccount(
+    providerAccountId: Parameters<NonNullable<typeof prismaAdapter.getUserByAccount>>[0],
+  ) {
+    if (!prismaAdapter.getUserByAccount) return null;
+
+    try {
+      return await prismaAdapter.getUserByAccount(providerAccountId);
+    } catch (error) {
+      // Older/manual MongoDB edits can leave an account pointing to a deleted user.
+      // Inspect the scalar foreign key without loading the required relation, which
+      // is the query that fails for this inconsistent document.
+      const orphanedAccount = await prisma.account.findUnique({
+        where: {
+          provider_providerAccountId: {
+            provider: providerAccountId.provider,
+            providerAccountId: providerAccountId.providerAccountId,
+          },
+        },
+        select: { id: true, userId: true },
+      });
+
+      if (!orphanedAccount) throw error;
+
+      const linkedUser = await prisma.user.findUnique({
+        where: { id: orphanedAccount.userId },
+        select: { id: true },
+      });
+
+      if (linkedUser) throw error;
+
+      await prisma.account.deleteMany({ where: { id: orphanedAccount.id } });
+      console.warn("[auth] Removido vínculo OAuth sem usuário associado");
+      return null;
+    }
+  },
+};
+
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(
-    prisma as unknown as Parameters<typeof PrismaAdapter>[0],
-  ),
+  adapter: authAdapter,
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({

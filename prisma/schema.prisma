@@ -41,18 +41,19 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  name           String?
-  username       String?
-  email          String?   @unique
-  emailVerified  DateTime? @map("email_verified")
-  hashedPassword String?
-  created_at     DateTime? @default(now())
-  update_at      DateTime? @default(now())
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  favorites      Favorite[]
+  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
+  name                String?
+  username            String?
+  email               String?              @unique
+  emailVerified       DateTime?            @map("email_verified")
+  hashedPassword      String?
+  created_at          DateTime?            @default(now())
+  update_at           DateTime?            @default(now())
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  favorites           Favorite[]
+  passwordResetTokens PasswordResetToken[]
 
   @@map("users")
 }
@@ -84,4 +85,17 @@ model RateLimitBucket {
 
   @@index([expiresAt])
   @@map("rate_limit_buckets")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
 }

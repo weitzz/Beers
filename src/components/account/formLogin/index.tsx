@@ -103,7 +103,7 @@ const Login = () => {
         <ButtonGoogle />
 
         <div className="mt-5 border-b border-slate-200 py-3 text-sm text-slate-500">
-          <Link className="font-medium text-yellow-700 hover:text-yellow-800" href="#">Esqueceu a senha?</Link>
+          <Link className="font-medium text-yellow-700 hover:text-yellow-800" href="/forgot-password">Esqueceu a senha?</Link>
         </div>
 
         <div className="mt-4 flex items-center justify-between text-sm">
